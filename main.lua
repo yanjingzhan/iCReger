@@ -222,6 +222,13 @@ function iCloudReg(timeout)
 			touchUp(320,480);
 		end	
 
+		local x, y = findImageInRegionFuzzy("登录icloud_注册IC_4.png",90, 210, 125, 430, 170,0);
+		if x ~= -1 and y ~= -1 then     
+			inputText(globlaPassword);
+			mSleep(300);
+			inputText("\n");
+		end
+
 
 
 		if isZhuXiaoed then
@@ -483,6 +490,11 @@ function  LoadAccounts()
 	end
 end
 
+function CleanAccounts()
+	os.execute("cp -rf /User/Library/Accounts/new/*.* /User/Library/Accounts/");
+	os.execute("chown -R mobile:mobile /User/Library/Accounts/*.*");
+end
+
 --clearSafari();
 ----serialNumber();
 --clearIDFAV();
@@ -549,6 +561,8 @@ if resultTemp then
 			toast("新机失败...",1);
 			lua_restart();
 		else
+			CleanAccounts();
+			mSleep(1000);
 			serialNumber();
 		end
 
