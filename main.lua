@@ -78,6 +78,14 @@ function  ReportiCloudSuccess()
 	return code == 200;
 end
 
+function  ReportiCloudMayDie()
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local res, code = http.request("http://ios.pettostudio.net/AccountInfo.aspx?action=updateaccountstate&state=maydie&account=" .. globlaAccount);
+
+	return code == 200;
+end
+
 function NewDevice()
 	fakePerApp({"com.apple.Preferences","com.apple.AppStore"});
 	return  appDel({},{CarrierType="3G"});
@@ -175,12 +183,20 @@ function iCloudReg(timeout)
 			isZhuXiaoed = true;
 		end
 
+		local x, y = findImageInRegionFuzzy("注销2_注册IC_4.png",90, 270, 770, 380, 830,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(300,800);
+			mSleep(30);
+			touchUp(300,800);
+		end
+
 		local x, y = findImageInRegionFuzzy("从iphone删除_注册IC.png",90, 170, 770, 470, 825,0);
 		if x ~= -1 and y ~= -1 then     
 			touchDown(300,800);
 			mSleep(30);
 			touchUp(300,800);
 		end
+
 
 		local x, y = findImageInRegionFuzzy("忽略_注册IC_4.png",90, 140, 550, 230, 600,0);
 		if x ~= -1 and y ~= -1 then     
@@ -194,6 +210,13 @@ function iCloudReg(timeout)
 			touchDown(180,570);
 			mSleep(30);
 			touchUp(180,570);
+		end
+
+		local x, y = findImageInRegionFuzzy("不支持此AppleID_注册IC_4.png",90, 160, 375, 470, 425,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(460,570);
+			mSleep(30);
+			touchUp(460,570);
 		end
 
 		local x, y = findImageInRegionFuzzy("验证失败_注册IC_4.png",90, 240, 390, 395, 440,0);
@@ -222,7 +245,14 @@ function iCloudReg(timeout)
 			touchUp(320,480);
 		end	
 
-		local x, y = findImageInRegionFuzzy("登录icloud_注册IC_4.png",90, 210, 125, 430, 170,0);
+		local x, y = findImageInRegionFuzzy("登录icloud_注册IC_4.png",90, 205, 105, 430, 180,0);
+		if x ~= -1 and y ~= -1 then     
+			inputText(globlaPassword);
+			mSleep(300);
+			inputText("\n");
+		end
+
+		local x, y = findImageInRegionFuzzy("登录icloud2_注册IC_4.png",90, 200, 105, 420, 180,0);
 		if x ~= -1 and y ~= -1 then     
 			inputText(globlaPassword);
 			mSleep(300);
@@ -230,9 +260,30 @@ function iCloudReg(timeout)
 		end
 
 
+		local x, y = findImageInRegionFuzzy("无法连接服务器_注册IC_4.png",90, 170, 420, 450, 480,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(320,530);
+			mSleep(30);
+			touchUp(320,530);
+
+			mSleep(2000);
+
+			touchDown(310,480);
+			mSleep(30);
+			touchUp(310,480);
+		end	
+
 
 		if isZhuXiaoed then
 			local x, y = findImageInRegionFuzzy("设置_注册IC.png",90, 275, 60, 370, 110,0);
+			if x ~= -1 and y ~= -1 then     
+				toast("完成...",1)
+				return 0;
+			end
+		end	
+
+		if isZhuXiaoed then
+			local x, y = findImageInRegionFuzzy("通知_注册IC_4.png",90, 275, 60, 370, 110,0);
 			if x ~= -1 and y ~= -1 then     
 				toast("完成...",1)
 				return 0;
@@ -367,6 +418,23 @@ function iCloudReg_5(timeout)
 			touchUp(460,660);
 		end
 
+		local x, y = findImageInRegionFuzzy("appleid密码不正确_注册IC_5.png",90, 145, 480, 490, 530,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(460,640);
+			mSleep(30);
+			touchUp(460,640);
+		end
+
+		local x, y = findImageInRegionFuzzy("用户名或密码不正确_注册IC_5.png",90, 180, 525, 445, 570,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(315,645);
+			mSleep(30);
+			touchUp(315,645);
+
+			mSleep(1000);
+			return 3;
+		end
+
 		local x, y = findImageInRegionFuzzy("无法连接服务器_注册IC_5.png",90, 175, 505, 430, 555,0);
 		if x ~= -1 and y ~= -1 then     
 			touchDown(320,625);
@@ -413,6 +481,7 @@ function iCloudReg_5(timeout)
 			inputText("\n");
 		end
 
+
 		if isZhuXiaoed then
 			local x, y = findImageInRegionFuzzy("设置_注册IC.png",90, 275, 60, 370, 110,0);
 			if x ~= -1 and y ~= -1 then     
@@ -423,6 +492,14 @@ function iCloudReg_5(timeout)
 
 		if isZhuXiaoed then
 			local x, y = findImageInRegionFuzzy("勿扰模式_注册IC_5.png",90, 250, 55, 400, 105,0);
+			if x ~= -1 and y ~= -1 then     
+				toast("完成...",1)
+				return 0;
+			end
+		end
+
+		if isZhuXiaoed then
+			local x, y = findImageInRegionFuzzy("控制中心_注册IC_5.png",90, 250, 55, 400, 105,0);
 			if x ~= -1 and y ~= -1 then     
 				toast("完成...",1)
 				return 0;
@@ -495,6 +572,13 @@ function CleanAccounts()
 	os.execute("chown -R mobile:mobile /User/Library/Accounts/*.*");
 end
 
+function WriteTimeTagiCloud()
+	local time1 = os.date("%Y-%m-%d %H:%M:%S");
+
+	local sz = require("sz");
+	writeFileString("/var/mobile/Media/TouchSprite/config/icloudlaunchtime.txt",tostring(time1):trim());	
+end
+
 --clearSafari();
 ----serialNumber();
 --clearIDFAV();
@@ -522,6 +606,7 @@ end
 --		lua_restart();
 --	end
 --end
+WriteTimeTagiCloud();
 
 closeApp("com.apple.Preferences");
 mSleep(1000);
@@ -566,13 +651,19 @@ if resultTemp then
 			serialNumber();
 		end
 
-	else
+	elseif result == 2 then
 		toast("超时",1);
 		SaveAccounts();
 
 		mSleep(1000);		
+		lua_restart();		
+	else
+		if ReportiCloudMayDie() then
+			tostring("提交完成",1);
+		end
 		lua_restart();
 	end
+
 else
 	lua_restart();
 end
