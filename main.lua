@@ -91,12 +91,29 @@ function NewDevice()
 	return  appDel({},{CarrierType="3G"});
 end
 
+function Click(x,y)
+	touchDown(1, x, y)
+	mSleep(math.random(20,80))
+	touchUp(1, x, y)
+end
+
 
 function iCloudReg(timeout)
 
 	local time1 = os.time();
 	local isZhuXiaoed = false;
 	while true do
+
+		if deviceIsLock() ~= 0 then
+			unlockDevice();
+			mSleep(3000);
+		end
+
+		if isFrontApp("com.apple.Preferences")~= 1 then
+			openURL("prefs:root=CASTLE");
+			mSleep(1000);
+		end
+
 
 		local x, y = findImageInRegionFuzzy("exampleicoud注册icoude用.png",90, 160, 220, 520, 270,0);
 		if x ~= -1 and y ~= -1 then        
@@ -116,17 +133,38 @@ function iCloudReg(timeout)
 			mSleep(1000);
 
 			inputText(globlaPassword);
-			mSleep(300);
+			mSleep(800);
 
+--			keyDown("ReturnOrEnter")
+--			mSleep(30);
+--			keyUp("ReturnOrEnter")
 
-			keyDown("ReturnOrEnter")
-			mSleep(30);
-			keyUp("ReturnOrEnter")
+			Click(230,470);
 		end	
+
+
+		local x, y = findImageInRegionFuzzy("需要激活_注册IC_4.png",90, 20, 355, 235, 415,0);
+		if x ~= -1 and y ~= -1 then     
+			unlockDevice();
+		end
+
+--		local x, y = findImageInRegionFuzzy("登录_注册IC_4.png",90, 25, 425, 110, 510,0);
+--		if x ~= -1 and y ~= -1 then  
+--			Click(230,470);			
+--		end	
+
+		local x, y = findImageInRegionFuzzy("未知设备_注册IC_4.png",90, 190, 135, 445, 215,0);
+		if x ~= -1 and y ~= -1 then     
+			return 3;
+		end
+
+		local x, y = findImageInRegionFuzzy("激活失败_注册IC_4.png",90, 190, 135, 450, 215,0);
+		if x ~= -1 and y ~= -1 then     
+			return 3;
+		end
 
 		local x, y = findImageInRegionFuzzy("无法登陆_注册IC.png",90, 240, 380, 400, 425,0);
 		if x ~= -1 and y ~= -1 then     
-
 			return 1;
 		end
 
@@ -190,6 +228,13 @@ function iCloudReg(timeout)
 			touchUp(300,800);
 		end
 
+		local x, y = findImageInRegionFuzzy("允许icloud_注册IC_4.png",90, 90, 350, 280, 4000,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(180,600);
+			mSleep(30);
+			touchUp(180,600);
+		end
+
 		local x, y = findImageInRegionFuzzy("从iphone删除_注册IC.png",90, 170, 770, 470, 825,0);
 		if x ~= -1 and y ~= -1 then     
 			touchDown(300,800);
@@ -219,6 +264,14 @@ function iCloudReg(timeout)
 			touchUp(460,570);
 		end
 
+
+		local x, y = findImageInRegionFuzzy("appleid密码不正确_注册IC_4.png",90, 150, 400, 485, 445,0);
+		if x ~= -1 and y ~= -1 then     
+			touchDown(450,560);
+			mSleep(30);
+			touchUp(450,560);
+		end
+
 		local x, y = findImageInRegionFuzzy("验证失败_注册IC_4.png",90, 240, 390, 395, 440,0);
 		if x ~= -1 and y ~= -1 then     
 			touchDown(320,550);
@@ -245,7 +298,63 @@ function iCloudReg(timeout)
 			touchUp(320,480);
 		end	
 
+		local x, y = findImageInRegionFuzzy("iPhone尚未激活_注册IC_4.png",90, 180, 390, 455, 435,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("尚未激活",1);
+			Click(180,560);			
+		end	
+
+		local x, y = findImageInRegionFuzzy("忽略_注册IC_4.png",90, 135, 540, 225, 590,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("尚未激活",1);
+			Click(180,560);			
+		end
+
+		local x, y = findImageInRegionFuzzy("再试一次1_注册IC_4.png",90, 240, 355, 400, 400,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("需要激活",1);
+			Click(320,380);			
+		end	
+
+
+		local x, y = findImageInRegionFuzzy("再试一次2_注册IC_4.png",90, 245, 850, 400, 900,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("需要激活",1);
+			Click(320,875);			
+		end	
+
+		local x, y = findImageInRegionFuzzy("需要激活(单个)_注册IC_4.png",90, 240, 410, 400, 465,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("需要激活",1);
+			Click(320,540);			
+		end	
+
+		local x, y = findImageInRegionFuzzy("继续_注册IC_4.png",90, 265, 440, 380, 505,0);
+		if x ~= -1 and y ~= -1 then     
+			Click(320,470);			
+		end	
+
+		local x, y = findImageInRegionFuzzy("下一步_注册IC_4.png",90, 515, 60, 630, 110,0);
+		if x ~= -1 and y ~= -1 then  
+			Click(575,80);			
+		end	
+
+		local x, y = findImageInRegionFuzzy("不支持的设备_注册IC_4.png",90, 210, 375, 430, 420,0);
+		if x ~= -1 and y ~= -1 then  
+			Click(450,580);	
+			mSleep(3000);
+			Click(260,500);
+		end	
+
 		local x, y = findImageInRegionFuzzy("登录icloud_注册IC_4.png",90, 205, 105, 430, 180,0);
+		if x ~= -1 and y ~= -1 then     
+			inputText(globlaPassword);
+			mSleep(300);
+			inputText("\n");
+		end
+
+
+		local x, y = findImageInRegionFuzzy("需要密码_注册IC_4.png",90, 240, 80, 395, 165,0);
 		if x ~= -1 and y ~= -1 then     
 			inputText(globlaPassword);
 			mSleep(300);
@@ -289,6 +398,15 @@ function iCloudReg(timeout)
 				return 0;
 			end
 		end
+
+		if isZhuXiaoed then
+			local x, y = findImageInRegionFuzzy("控制中心_注册IC_4.png",90, 240, 60, 395, 105,0);
+			if x ~= -1 and y ~= -1 then     
+				toast("完成...",1)
+				return 0;
+			end
+		end
+
 
 		mSleep(1000);
 		local time2 = os.time();
@@ -499,6 +617,14 @@ function iCloudReg_5(timeout)
 		end
 
 		if isZhuXiaoed then
+			local x, y = findImageInRegionFuzzy("通知_注册IC_5.png",90,275, 60, 370, 110,0);
+			if x ~= -1 and y ~= -1 then     
+				toast("完成...",1)
+				return 0;
+			end
+		end
+
+		if isZhuXiaoed then
 			local x, y = findImageInRegionFuzzy("控制中心_注册IC_5.png",90, 250, 55, 400, 105,0);
 			if x ~= -1 and y ~= -1 then     
 				toast("完成...",1)
@@ -545,6 +671,12 @@ function  SaveAccounts()
 	writeFileString("/var/mobile/Media/TouchSprite/config/AccountInfo.txt",globlaAccount .. "," .. globlaPassword);  
 end
 
+function DeleteAccountsFile()
+	if isFileExist("/var/mobile/Media/TouchSprite/config/AccountInfo.txt") then
+		delFile("/var/mobile/Media/TouchSprite/config/AccountInfo.txt");
+	end
+end
+
 function  LoadAccounts()
 	if isFileExist("/var/mobile/Media/TouchSprite/config/AccountInfo.txt") then
 
@@ -557,7 +689,6 @@ function  LoadAccounts()
 			globlaAccount = tableTemp[1]:trim();
 			globlaPassword = tableTemp[2]:trim();
 
-			delFile("/var/mobile/Media/TouchSprite/config/AccountInfo.txt");
 			return true;
 		else 
 			return false;
@@ -620,10 +751,12 @@ if not resultTemp  then
 end
 
 if resultTemp then
+	SaveAccounts();
+
 	local deviceFuck = GetDeviceFuck();
 	local result = false;
 
-	toast("机型：" .. deviceFuck,1)
+--	toast("机型：" .. deviceFuck,1)
 	if deviceFuck == 4 then
 		result = iCloudReg(300);
 	else
@@ -634,10 +767,11 @@ if resultTemp then
 		if ReportiCloudSuccess() then
 			toast("提交成功",1);
 		end
+
+		DeleteAccountsFile();
 		lua_restart();
 	elseif result == 1 then
 		toast("到达最大限制",1);
-		SaveAccounts();
 
 		mSleep(1000);
 
@@ -653,10 +787,14 @@ if resultTemp then
 
 	elseif result == 2 then
 		toast("超时",1);
-		SaveAccounts();
 
 		mSleep(1000);		
-		lua_restart();		
+		lua_restart();	
+
+	elseif result == 3 then
+		toast("其他异常",1);		
+		mSleep(1000);
+		os.execute("reboot");	
 	else
 		if ReportiCloudMayDie() then
 			tostring("提交完成",1);

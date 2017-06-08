@@ -1,0 +1,2 @@
+unlockDevice();
+--os.execute("reboot");
