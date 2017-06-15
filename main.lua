@@ -422,6 +422,16 @@ function iCloudReg_5(timeout)
 	local time1 = os.time();
 	local isZhuXiaoed = false;
 	while true do
+		
+		if deviceIsLock() ~= 0 then
+			unlockDevice();
+			mSleep(3000);
+		end
+
+		if isFrontApp("com.apple.Preferences")~= 1 then
+			openURL("prefs:root=CASTLE");
+			mSleep(1000);
+		end
 
 		local x, y = findImageInRegionFuzzy("exampleicoud注册icoude用.png",90, 160, 220, 520, 270,0);
 		if x ~= -1 and y ~= -1 then        
