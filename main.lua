@@ -228,6 +228,13 @@ function iCloudReg(timeout)
 			touchUp(300,800);
 		end
 
+		local x, y = findImageInRegionFuzzy("从我的_注册IC_4.png",90, 130, 765, 275, 830,0);
+		if x ~= -1 and y ~= -1 then  
+			toast("从我的删除",1);
+			Click(330,790);			
+		end	
+
+
 		local x, y = findImageInRegionFuzzy("允许icloud_注册IC_4.png",90, 90, 350, 280, 4000,0);
 		if x ~= -1 and y ~= -1 then     
 			touchDown(180,600);
@@ -315,7 +322,6 @@ function iCloudReg(timeout)
 			toast("需要激活",1);
 			Click(320,380);			
 		end	
-
 
 		local x, y = findImageInRegionFuzzy("再试一次2_注册IC_4.png",90, 245, 850, 400, 900,0);
 		if x ~= -1 and y ~= -1 then  
@@ -677,6 +683,21 @@ function RollToEnd()
 	touchUp(150, 550); 
 end
 
+function  connectVPN(retryCount)
+	for i=0,retryCount,1 do
+		setVPNEnable(true);
+		mSleep(3000);
+
+		flag = getVPNStatus()
+		toast(flag.status,1)
+		if  string.find(flag.status,"已连接") == 1 or string.find(flag.status,"Connected") == 1  then
+			return true;
+		end
+	end
+--	setVPNEnable(false);
+	return false;
+end
+
 function  SaveAccounts()
 	writeFileString("/var/mobile/Media/TouchSprite/config/AccountInfo.txt",globlaAccount .. "," .. globlaPassword);  
 end
@@ -749,6 +770,8 @@ end
 --end
 WriteTimeTagiCloud();
 
+--connectVPN();
+
 closeApp("com.apple.Preferences");
 mSleep(1000);
 openURL("prefs:root=CASTLE");
@@ -766,7 +789,7 @@ if resultTemp then
 	local deviceFuck = GetDeviceFuck();
 	local result = false;
 
---	toast("机型：" .. deviceFuck,1)
+	--	toast("机型：" .. deviceFuck,1)
 	if deviceFuck == 4 then
 		result = iCloudReg(300);
 	else
